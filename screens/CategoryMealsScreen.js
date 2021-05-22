@@ -2,36 +2,19 @@ import React from 'react';
 import { View, Text, StyleSheet, Button ,Platform, FlatList, Image} from 'react-native';
 import {CATEGORIES, MEALS} from '../data/dummy-data';
 import MealsGridTile from '../components/MealsGridTile';
-
+import MealList from '../components/MealList';
 
 
 
 const CategoriesMealsScreen = (props)=>{
     
-    const renderMealItem = (itemData)=>{
-        return(
-            <MealsGridTile title={itemData.item.title}
-            complexity={itemData.item.complexity}
-            duration = {itemData.item.duration}
-            image = {itemData.item.imageUrl}
-            afforadability = {itemData.item.afforadability} 
-            onSelectMeal={()=>{
-                props.navigation.navigate({routeName: 'MealDetail', 
-        params:{
-            mealId:itemData.item.id
-        }})}}/>
-        );
-    }
+   
     const catId = props.navigation.getParam('categoryId');
-    // console.log(catId)
 
     const meals = MEALS.filter((meal)=> meal.categoryIds.indexOf(catId)>=0);
-    // console.log(meals);
 
-    let renderScreen = <FlatList data={meals} keyExtractor={(item, index)=> item.id}
-    style={{width:'100%'}}
-    renderItem={renderMealItem}
-    />
+
+    let renderScreen = <MealList meals={meals} navigation={props.navigation}/>
     if(meals.length===0)
     {
         renderScreen = <View><Text style={styles.noItem}>No Meals available in selected category</Text></View>

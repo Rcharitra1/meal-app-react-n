@@ -4,8 +4,12 @@ import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
 import MealsNavigator from './navigation/MealsNavigator';
 import {enableScreens} from 'react-native-screens';
-
 enableScreens();
+
+
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();
 
 
 const fetchFonts = ()=>{
