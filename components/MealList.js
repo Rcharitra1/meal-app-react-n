@@ -1,9 +1,11 @@
 import React from 'react';
 import {  FlatList, View } from 'react-native'
-import MealsGridTile from './MealsGridTile'
+import MealsGridTile from './MealsGridTile';
+import {useSelector} from 'react-redux'
 
 const MealList = props =>
 {
+  const favs = useSelector(state=> state.meals.favoriteMeals);
     const renderMealItem = (itemData)=>{
         return(
             <MealsGridTile title={itemData.item.title}
@@ -14,7 +16,9 @@ const MealList = props =>
             onSelectMeal={()=>{
                 props.navigation.navigate({routeName: 'MealDetail', 
         params:{
-            mealId:itemData.item.id
+            mealId:itemData.item.id,
+            mealTitle:itemData.item.title,
+            isFav:favs.some(meal=>meal.id===itemData.item.id)
         }})}}/>
         );
     }

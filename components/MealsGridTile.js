@@ -1,5 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet, View, Text, ImageBackground } from 'react-native'
+import DefaultText from './DefaultText';
 
 const MealsGridTile = (props)=>{
     return(
@@ -12,15 +13,15 @@ const MealsGridTile = (props)=>{
         </ImageBackground>
         </View>
         <View style={{...styles.mealRow, ...styles.mealDetail}}>
-        <Text>
+        <DefaultText>
         {props.duration}   
-        </Text>
-        <Text>
-        {props.complexity}
-        </Text>
-        <Text>
-        {props.afforadability}
-        </Text>
+        </DefaultText>
+        <DefaultText>
+        {props.complexity.toUpperCase()}
+        </DefaultText>
+        <DefaultText>
+        {props.afforadability.toUpperCase()}
+        </DefaultText>
         </View>
         </View>
         </TouchableOpacity>

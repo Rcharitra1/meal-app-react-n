@@ -10,7 +10,8 @@ import HeaderButton from '../components/HelperButton';
 const CategoriesScreen = (props)=>{
     const renderGridItem = (itemData)=>{
         return <CategoryGridTile title={itemData.item.title} onSelect={()=>{ props.navigation.navigate({routeName: 'CategoryMeals', params:{
-            categoryId : itemData.item.id
+            categoryId : itemData.item.id,
+            mealTitle:itemData.item.title
         }})}}
         color={itemData.item.color}
         />

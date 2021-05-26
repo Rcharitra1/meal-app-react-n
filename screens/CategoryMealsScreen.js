@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Button ,Platform, FlatList, Image} from 'react-native';
-import {CATEGORIES, MEALS} from '../data/dummy-data';
+import {CATEGORIES} from '../data/dummy-data';
+import {useSelector} from 'react-redux';
 import MealsGridTile from '../components/MealsGridTile';
 import MealList from '../components/MealList';
 
@@ -11,13 +12,15 @@ const CategoriesMealsScreen = (props)=>{
    
     const catId = props.navigation.getParam('categoryId');
 
-    const meals = MEALS.filter((meal)=> meal.categoryIds.indexOf(catId)>=0);
+    const availableMeals = useSelector(state => state.meals.filteredMeals)
+
+    const meals = availableMeals.filter((meal)=> meal.categoryIds.indexOf(catId)>=0);
 
 
     let renderScreen = <MealList meals={meals} navigation={props.navigation}/>
     if(meals.length===0)
     {
-        renderScreen = <View><Text style={styles.noItem}>No Meals available in selected category</Text></View>
+        renderScreen = <View style={styles.noItemView}><Text style={styles.noItem}>No Meals available in selected category</Text></View>
     }
 
     return(
@@ -47,7 +50,13 @@ const styles = StyleSheet.create({
     noItem:{
         fontFamily:'open-sans',
         fontSize:22,
-        textAlign:'center'
+        textAlign:'center',
+      
+    },
+    noItemView:{
+        alignItems:'center',
+        justifyContent:'center',
+        flex:1
     }
 });
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, ImageBackground, StyleSheet, ScrollView} from 'react-native';
 import Colors from '../constants/colors'
+import DefaultText from './DefaultText'
 
 const MealDetailTile = (props)=>{
     const {steps, ingredients} = {...props}
@@ -30,6 +31,12 @@ const MealDetailTile = (props)=>{
         <Text style={styles.titleText} numberOfLines={1}>{props.title}</Text>
         </ImageBackground>
         </View>
+        <View style={styles.columnView}>
+        <DefaultText style={styles.columnText}>{props.time}</DefaultText>
+        <DefaultText style={styles.columnText}>{props.afford.toUpperCase()}</DefaultText>
+    
+        <DefaultText style={styles.columnText}>{props.complex.toUpperCase()}</DefaultText>
+        </View>
         <Text style={styles.sectionTitle}>Ingredients you'll need</Text>
         {ingredientsMarkup}
         <Text style={styles.sectionTitle}>Steps to follow</Text>
@@ -58,7 +65,8 @@ const styles = StyleSheet.create({
         fontFamily:'open-sans-bold',
         color:'white',
         paddingVertical:4,
-        paddingHorizontal:10
+        paddingHorizontal:10,
+
     },
     ingredientItem:{
         fontSize:16,
@@ -84,7 +92,16 @@ const styles = StyleSheet.create({
         fontSize:18,
         fontFamily:'open-sans-bold',
         marginHorizontal:20,
-        marginVertical:10
+        marginVertical:10,
+        textAlign:'center'
+    },
+    columnView:{
+        flexDirection:'row',
+        justifyContent:'space-around',
+        marginHorizontal: 10
+    },
+    columnText:{
+        fontSize:16
     }
 })
 

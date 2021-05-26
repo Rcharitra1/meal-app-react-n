@@ -1,30 +1,60 @@
-import React from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
-import {MEALS} from '../data/dummy-data';
+import React, {useEffect, useCallback} from 'react';
+import { View,  StyleSheet, ShadowPropTypesIOS } from 'react-native';
+
+
+import { useSelector, useDispatch } from 'react-redux'
 import MealDetailTile from '../components/MealDetailTile';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons'
 import CustomHeaderButton from '../components/HelperButton';
+import {toggleFavorite} from '../store/actions/meals'
 
 const MealDetailScreen = (props)=>{
     const mealId = props.navigation.getParam('mealId');
-    const meal = MEALS.find((item)=> item.id === mealId);
+    const isFavMeal  = useSelector(state => state.meals.favoriteMeals.some(meal=>meal.id==mealId));
+    const availableMeals = useSelector(state => state.meals.meals);
+    const meal = availableMeals.find((item)=> item.id === mealId);
+
     
+
+    
+
+    
+
+    const dispatch = useDispatch();
+
+    const toggleFavHandler = useCallback(()=>{
+        dispatch(toggleFavorite(mealId))
+    }, [dispatch, mealId]);
+
+    useEffect(()=>{
+        props.navigation.setParams({toggleFavHandler: toggleFavHandler})
+
+   
+        
+    }, [meal])
+
+    useEffect(()=>{
+        props.navigation.setParams({isFav:isFavMeal})
+    }, [isFavMeal])
+
     return(
         <View style={styles.screen}>
-            <MealDetailTile ingredients={meal.ingredients} steps ={meal.steps} title = {meal.title} image={meal.imageUrl}/>
+            <MealDetailTile ingredients={meal.ingredients} steps ={meal.steps} title = {meal.title} image={meal.imageUrl} afford={meal.afforadability} time={meal.duration} complex={meal.complexity}/>
           
         </View>
     );
 }
 
 MealDetailScreen.navigationOptions = navigationData => {
-    const mealId =navigationData.navigation.getParam('mealId');
-    const meal = MEALS.find((item)=> item.id === mealId);
+    const mealTitle =navigationData.navigation.getParam('mealTitle');
+    const toggleFavFunc = navigationData.navigation.getParam('toggleFavHandler');
+    const isFav = navigationData.navigation.getParam('isFav');
+
     return {
-        headerTitle: meal.title,
+        headerTitle: mealTitle,
         headerRight: () => 
             <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
-            <Item title='Fav' iconName='ios-star' onPress={()=>{console.log('Fav')}}/>
+            <Item title='Fav' iconName={isFav?'ios-star':'ios-star-outline'} onPress={toggleFavFunc}/>
             </HeaderButtons>
     }
 }
@@ -37,6 +67,3 @@ const styles = StyleSheet.create({
 
 export default MealDetailScreen;
 
-// <Button title='home' onPress={()=>{
-//     props.navigation.popToTop();
-// }}/>
